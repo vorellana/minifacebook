@@ -69,9 +69,11 @@ app.use(express.json()); // to understand json format
 app.use(express.urlencoded({extended: false})); // to understand data from a form
 
 // routes
-app.use(require('./routes/index'));
-app.use('/api/users' ,require('./routes/users'));
-app.use('/api/posts' ,require('./routes/posts'));
+// app.use(require('./routes/index'));
+// app.use('/api/users' ,require('./routes/users.routes'));
+// app.use('/api/posts' ,require('./routes/posts.routes'));
+app.use(require('./routes/users.routes'));
+app.use(require('./routes/posts.routes'));
 
 // app.get('/', (req, res) => {
 //     res.json({"Title":"Hello World"});
