@@ -2,7 +2,7 @@ const postsCtrl = {};
 const Post = require('../models/post');
 
 postsCtrl.getPosts = async(req, res) => {
-    const posts = await Post.find({})
+    const posts = await Post.find({}).sort({"createdAt":'desc'});
     res.json(posts);
 };
 
