@@ -3,6 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
+//const session = require('express-session');
+const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -35,6 +37,19 @@ app.use(morgan('dev')); // print console log
 app.use(express.json()); // to understand json format
 app.use(express.urlencoded({extended: false})); // to understand data from a form
 app.use(cors());
+// app.use(session({
+//     secret: '5FSD65F416S54',
+//     resave: false,
+//     saveUninitialized: false,
+//     // cookie: { secure: true }
+//   }))
+app.use(cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2'],
+  
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
 
 // ***** routes *****
 app.use(require('./routes/users.routes'));

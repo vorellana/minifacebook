@@ -4,12 +4,17 @@ const User = require('../models/user');
 const{ login, logout } = require('../utils/firebase.auth');
 
 usersCtrl.getUsers = async(req, res) => {
-    const users = await User.find({})
-    res.json(users);
+    // if(req.session.loggedin){
+        const users = await User.find({})
+        res.json(users);
+    // }else{
+    //     res.send(401,"Unauthorized")
+    // }
 };
 
 usersCtrl.logoutUsers = async(req, res) => {
     const resLogout = await logout();
+    // req.session.loggedin = false;
     res.json(resLogout);
 };
 
@@ -28,6 +33,7 @@ usersCtrl.loginUsers = async(req, res) => {
             // login successful
             const resLogin = await login(email, password);
             if (resLogin.successLogin){
+                // req.session.loggedin = true;
                 res.json( {
                     name: user.name,
                     email: user.email,
