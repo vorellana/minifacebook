@@ -1,8 +1,8 @@
 const fbAuthCtrl = {};
-var firebase = require("firebase/app");
+let firebase = require("firebase/app");
 require("firebase/auth");
 
-var firebaseConfig = {
+let firebaseConfig = {
     apiKey: "AIzaSyAPMIFE9_EOnHaeBe1h-gZNYkNsNCkdopo",
     authDomain: "minifacebook-60c7a.firebaseapp.com",
     projectId: "minifacebook-60c7a",
@@ -16,7 +16,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 fbAuthCtrl.login = async (email, password) => {
-    var response;
+    let response;
 
     await firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
@@ -30,6 +30,7 @@ fbAuthCtrl.login = async (email, password) => {
             response = {
                 errorCode: error.code,
                 errorMessage: error.message,
+                message: "El Password es incorrecto",
                 successLogin: false
             };
         });    
@@ -37,7 +38,7 @@ fbAuthCtrl.login = async (email, password) => {
 };
 
 fbAuthCtrl.logout = async () => {
-    var response;
+    let response;
 
     await firebase.auth().signOut().then(() => {
         // Sign-out successful.

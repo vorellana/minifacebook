@@ -1,7 +1,6 @@
 const usersCtrl = {};
 const { json } = require('express');
 const User = require('../models/user');
-
 const{ login, logout } = require('../utils/firebase.auth')
 
 usersCtrl.getUsers = async(req, res) => {
@@ -15,19 +14,33 @@ usersCtrl.logoutUsers = async(req, res) => {
 };
 
 usersCtrl.loginUsers = async(req, res) => {
-
     const{ email, password } = req.body;    
-    const resLogin = await login(email, password);
-
-    if (resLogin.successLogin){
-        var user = await usersCtrl.getUsersEmail(email);
-        res.json( {
-            name: user.name,
-            email: user.email,
-            last_name: user.last_name
-        });
-    }else{
-        res.json(resLogin);
+    try {
+        // verify E-mail
+        let user = await usersCtrl.getUsersEmail(email);
+        if(user === null){
+            res.json( {
+                email: email,
+                message: "El E-mail es incorrecto",
+                successLogin: false
+            });
+        } else {
+            // login successful
+            const resLogin = await login(email, password);
+            if (resLogin.successLogin){
+                res.json( {
+                    name: user.name,
+                    email: user.email,
+                    last_name: user.last_name,
+                    user_id: user.id,
+                    successLogin: true
+                });
+            }else{
+                res.json(resLogin);
+            }
+        }        
+    } catch (error) {
+        res.json({error, successLogin: false})
     }
 };
 
