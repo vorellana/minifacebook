@@ -3,8 +3,6 @@ const { json } = require('express');
 const User = require('../models/user');
 const{ login, logout } = require('../utils/firebase.auth');
 
-require('dotenv').config();
-
 usersCtrl.getUsers = async(req, res) => {
     const users = await User.find({})
     res.json(users);
@@ -24,8 +22,7 @@ usersCtrl.loginUsers = async(req, res) => {
             res.json( {
                 email: email,
                 message: "El E-mail es incorrecto",
-                successLogin: false,
-                prueba: process.env.DB_USER
+                successLogin: false
             });
         } else {
             // login successful

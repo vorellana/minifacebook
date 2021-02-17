@@ -4,12 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
-
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://vorellana:1a2s3d4F5G6H@cluster0.pxjyp.mongodb.net/minifacebook?retryWrites=true&w=majority";
-//const uri2 = "mongodb://vorellana:1a2s3d4F5G6H_ZZZ@cluster0.pxjyp.mongodb.net/minifacebook?retryWrites=true&w=majority";
-const uri2 = "mongodb://vorellana:1a2s3d4F5G6H@cluster0.pxjyp.mongodb.net/minifacebook";
-const client = new MongoClient(uri, { useNewUrlParser: true });
+require('dotenv').config();
 
 const options = {
     useNewUrlParser: true,
@@ -20,7 +15,8 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
   };
 
-mongoose.connect(uri,{
+// ***** Conexion DB *****
+mongoose.connect(process.env.DB_HOST, {
     useNewUrlParser: true, 
     useUnifiedTopology: true},(err) => {
         if(err){
@@ -32,28 +28,17 @@ mongoose.connect(uri,{
      }
 )
 
-// settings
+// ***** settings *****
 app.set('port', process.env.PORT || 3000);
 app.set('json spaces', 2);
-// app.set('view', path.join(__dirname, 'views')); // indicates the view forlder to the server
-
-// middlewares
-// configuramos para que por medio de mi funcion se imprima por consola 
-app.use(morgan('dev'));
+app.use(morgan('dev')); // print console log
 app.use(express.json()); // to understand json format
 app.use(express.urlencoded({extended: false})); // to understand data from a form
-
 app.use(cors());
-// routes
-// app.use(require('./routes/index'));
-// app.use('/api/users' ,require('./routes/users.routes'));
-// app.use('/api/posts' ,require('./routes/posts.routes'));
+
+// ***** routes *****
 app.use(require('./routes/users.routes'));
 app.use(require('./routes/posts.routes'));
-
-// app.get('/', (req, res) => {
-//     res.json({"Title":"Hello World"});
-// });
 
 // starting the server
 app.listen(app.get('port'), () => {

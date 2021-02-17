@@ -1,16 +1,9 @@
 const fbAuthCtrl = {};
 let firebase = require("firebase/app");
 require("firebase/auth");
+require('dotenv').config();
 
-let firebaseConfig = {
-    apiKey: "AIzaSyAPMIFE9_EOnHaeBe1h-gZNYkNsNCkdopo",
-    authDomain: "minifacebook-60c7a.firebaseapp.com",
-    projectId: "minifacebook-60c7a",
-    storageBucket: "minifacebook-60c7a.appspot.com",
-    messagingSenderId: "732378170210",
-    appId: "1:732378170210:web:65c2577daa5f3e8edca23b",
-    measurementId: "G-Y41H32NPWC"
-};
+let firebaseConfig = JSON.parse(process.env.AUTH_CRED);
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
